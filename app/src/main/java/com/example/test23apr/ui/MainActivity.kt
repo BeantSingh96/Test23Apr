@@ -1,13 +1,16 @@
 package com.example.test23apr.ui
 
 import android.content.Intent
+import android.opengl.Visibility
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View.GONE
+import android.view.View.VISIBLE
+import android.widget.ProgressBar
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.test23apr.EmojiAdapter
+import com.example.test23apr.adapter.EmojiAdapter
 import com.example.test23apr.R
 import com.example.test23apr.retrofit.EmojiViewModel
 import com.example.test23apr.retrofit.SmilyPojo
@@ -18,8 +21,6 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var emojiRecycler: RecyclerView
 
-    private var list: ArrayList<SmilyPojo>? = ArrayList()
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -29,12 +30,18 @@ class MainActivity : AppCompatActivity() {
 
     private fun init() {
 
+        val progressCircular = findViewById<ProgressBar>(R.id.progress_circular)
+
         emojiRecycler = findViewById(R.id.emojiRecycler)
         emojiRecycler.layoutManager = GridLayoutManager(this, 2)
 
         emojiViewModel = ViewModelProvider(this)[EmojiViewModel::class.java]
 
+        progressCircular.visibility = VISIBLE
+
         emojiViewModel.loadData()!!.observe(this) {
+
+            progressCircular.visibility = GONE
 
             if (!it.isNullOrEmpty()) {
 

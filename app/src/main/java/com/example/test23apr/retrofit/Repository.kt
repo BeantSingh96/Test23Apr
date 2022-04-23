@@ -3,6 +3,7 @@ package com.example.test23apr.retrofit
 import android.app.Application
 import android.widget.Toast
 import androidx.lifecycle.MutableLiveData
+import com.example.test23apr.utils.showToast
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -29,25 +30,16 @@ class Repository(val application: Application) {
 
                         emojis!!.postValue(response.body())
                     } else {
-
-                        Toast.makeText(
-                            application.applicationContext, "response body null message",
-                            Toast.LENGTH_SHORT
-                        ).show()
+                        showToast(application.applicationContext, "response body null message")
                     }
                 } else {
-                    Toast.makeText(
-                        application.applicationContext, "response error",
-                        Toast.LENGTH_SHORT
-                    ).show()
+                    showToast(application.applicationContext, "response error")
                 }
             }
 
             override fun onFailure(call: Call<ArrayList<SmilyPojo>?>, t: Throwable) {
-                Toast.makeText(
-                    application.applicationContext, "error message " + t.message,
-                    Toast.LENGTH_SHORT
-                ).show()
+                showToast(application.applicationContext, "error message " + t.message)
+
                 emojis!!.postValue(null)
             }
 
